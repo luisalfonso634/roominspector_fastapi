@@ -1,15 +1,17 @@
 #Python
+import email
 from typing import Optional
 from fastapi.param_functions import Query
 from enum import Enum
 
 #Pydantic
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from pydantic import Field
 
 #FastAPI
 from fastapi import FastAPI
 from fastapi import Body, Query, Path
+
 
 
 
@@ -24,7 +26,7 @@ class HairColor(Enum):
     red= "red"
     gray= "gray"
 
-
+    
 class Person(BaseModel):
     first_name: str = Field(
         ...,
@@ -36,6 +38,12 @@ class Person(BaseModel):
         min_length=1,
         max_length=50
     )
+    email: EmailStr = Field(
+        ..., 
+        title="Personal E-mail",
+        description="This is the personal e-mail"
+    )
+
     age: int = Field(
         ...,
         gt=0,
@@ -49,6 +57,7 @@ class Location(BaseModel):
     city: str
     state: str
     country: str
+    
 
 
 @app.get("/")
@@ -64,7 +73,8 @@ def create_person(person: Person = Body(...)):
  #Validaciones: Query Parameters
 
 @app.get("/person/detail")
-def show_person(name: Optional[str] = Query(None, 
+def show_person(name: Optional[str] = Query(
+        None, 
         min_length=1, 
         max_length=50,
         title="Person Name",
@@ -77,11 +87,13 @@ def show_person(name: Optional[str] = Query(None,
     )
 ): 
     return {name: age}
-#con los 3 puntos lo estamos haciendo obligatorio, 
-# lo ideal es que un Query no sea obligatorio, sin embargo,
-# es posible, que por alguna razon, nos haga falta hacer 
-# esto en algun momento. Lo ideal es que si es obligatorio, 
-# no sea un Query Parameter, sino un Path Parameter
+"""
+con los 3 puntos lo estamos haciendo obligatorio, 
+lo ideal es que un Query no sea obligatorio, sin embargo,
+es posible, que por alguna razon, nos haga falta hacer 
+esto en algun momento. Lo ideal es que si es obligatorio, 
+no sea un Query Parameter, sino un Path Parameter
+"""
 
 # Validaciones: Path parameters
 
