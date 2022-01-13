@@ -68,21 +68,25 @@ class Location(BaseModel):
         min_length=3,
         max_length=20,
         title="City",
-        description="This is the city of the person"
+        description="This is the city of the person",
+        example="Ciudad de Buenos Aires"
 
     )
     state: str = Field(
         min_length=3,
         max_length=20,
         title="State",
-        description="This is the State of the City"
+        description="This is the State of the City",
+        example="Buenos Aires"
     )
     country: str =Field(
         min_length=3,
         max_length=20,
         title="Country",
-        description="This is the Country"
+        description="This is the Country",
+        example="Argentina"
     )
+    """
     class Config:
             schema_extra = {
                 "example": {
@@ -92,6 +96,7 @@ class Location(BaseModel):
                     
                 }
             }
+    """
     
 
 
