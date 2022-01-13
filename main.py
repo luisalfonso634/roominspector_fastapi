@@ -54,9 +54,25 @@ class Person(BaseModel):
 
 
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(
+        min_length=3,
+        max_length=20,
+        title="City",
+        description="This is the city of the person"
+
+    )
+    state: str = Field(
+        min_length=3,
+        max_length=20,
+        title="State",
+        description="This is the State of the City"
+    )
+    country: str =Field(
+        min_length=3,
+        max_length=20,
+        title="Country",
+        description="This is the Country"
+    )
     
 
 
